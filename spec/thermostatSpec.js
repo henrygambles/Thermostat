@@ -1,3 +1,5 @@
+'use strict';
+
 describe("Thermostat", function() {
     var thermostat
     beforeEach(function(){
@@ -51,5 +53,29 @@ describe("Thermostat", function() {
             thermostat.up()
         }
         expect(thermostat.temp).toEqual(32);
-    })
+    });
+
+    it('You can reset the temperature to 20 with a reset function', function() {
+        var times = 20;
+        for(var i = 0; i < times; i++) {
+            thermostat.up()
+        }
+        thermostat.reset();
+        expect(thermostat.temp).toEqual(20);
+    });
+
+    it('return low-usage if under <18', function(){
+        thermostat.temp = 17;
+        expect(thermostat.currentEnergyUsage()).toEqual('low-usage')
+    });
+
+    it('return medium-usage if under <25', function(){
+        thermostat.temp = 20;
+        expect(thermostat.currentEnergyUsage()).toEqual('medium-usage')
+    });
+
+    it('return high-usage over >25', function(){
+        thermostat.temp = 30;
+        expect(thermostat.currentEnergyUsage()).toEqual('high-usage')
+    });
 });
